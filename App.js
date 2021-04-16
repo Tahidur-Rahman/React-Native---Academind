@@ -1,43 +1,39 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  ScrollView,
-  TextInput,
-} from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import React, { useState } from "react";
+import { View, StyleSheet, FlatList, Button } from "react-native";
+import GoalInput from "./src/components/GoalInput";
+import GoalList from "./src/components/GoalList";
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState(null);
   const [goals, setGoals] = useState([]);
+  const [modalVisibility,setModalVisibility] = useState(false);
 
-  const goalInputHandler = (e) => setEnteredGoal(e);
-  const goalsHandler = () =>
+  const goalsHandler = (goalTitle) =>{
     setGoals((currentGoal) => [
       ...currentGoal,
-      { id: Math.random.toString(), value: enteredGoal },
-    ]);
+      { id: Math.random().toString(), value: goalTitle },
+    ]) 
+    setModalVisibility(false);
+  }
+
+  const removeHandler = (goalId) => {
+    setGoals((currentGoals) =>
+      currentGoals.filter((goal) => goal.id !== goalId)
+    );
+  };
 
   return (
     <View style={styles.screen}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Course Goals"
-          style={styles.input}
-          onChangeText={goalInputHandler}
-        />
-        <Button title="Add" onPress={goalsHandler} />
-      </View>
-
+      <Button title="Add New goal"  onPress={()=>setModalVisibility(true)}/>
+      <GoalInput addGoal={goalsHandler} modalVisibility={modalVisibility} setModalVisibility={setModalVisibility}/>
       <FlatList
         keyExtractor={(item, index) => item.id}
         data={goals}
         renderItem={(itemData) => (
-          <View style={styles.listItem}>
-            <Text style={{ color: "#fff" }}>{itemData.item.value}</Text>
-          </View>
+          <GoalList
+            id={itemData.item.id}
+            onDelete={removeHandler}
+            goal={itemData.item.value}
+          />
         )}
       />
     </View>
@@ -50,25 +46,5 @@ const styles = StyleSheet.create({
     backgroundColor: "skyblue",
     flex: 1,
     paddingTop: 90,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  input: {
-    width: "80%",
-    borderBottomColor: "dodgerblue",
-    borderBottomWidth: 2,
-    backgroundColor: "#eee",
-    padding: 5,
-    borderRadius: 5,
-  },
-  listItem: {
-    padding: 10,
-    width: "79%",
-    backgroundColor: "#364156",
-    margin: 2,
-    borderRadius: 1,
-  },
+  }
 });
