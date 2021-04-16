@@ -1,36 +1,31 @@
-import React, { useState } from "react";
-import { Button, StatusBar, Text, View, StyleSheet } from "react-native";
-import { FlatList, ScrollView, TextInput } from "react-native-gesture-handler";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Button,ScrollView,TextInput } from "react-native";
 
-function App() {
-  const [goal, setGoal] = useState("");
+export default function App() {
+  const [enteredGoal, setEnteredGoal] = useState(null);
   const [goals, setGoals] = useState([]);
 
-  const handleGoals = () => {
-    setGoals([...goals, { id: Math.random.toString(), value: goal }]);
-    // setGoal('')
-  };
+  const goalInputHandler = (e) => setEnteredGoal(e);
+  const goalsHandler = () =>
+    setGoals((currentGoal) => [...currentGoal, enteredGoal]);
 
   return (
     <View style={styles.screen}>
-      <View style={styles.form}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Input Here"
+          placeholder="Course Goals"
           style={styles.input}
-          value={goal}
-          onChangeText={(e) => setGoal(e)}
+          onChangeText={goalInputHandler}
         />
-        <Button title="ADD" onPress={handleGoals} />
+        <Button title="Add" onPress={goalsHandler} />
       </View>
-      <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={goals}
-        renderItem={(itemData) => (
+      <ScrollView>
+        {goals.map((goal) => (
           <View style={styles.listItem}>
-            <Text>{itemData.item.value}</Text>
+            <Text style={{ color: "#fff" }}>{goal}</Text>
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -38,28 +33,28 @@ function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 20,
-    paddingTop: 100,
+    backgroundColor: "skyblue",
+    flex: 1,
+    paddingTop: 90,
   },
-  form: {
-    padding: 10,
+  inputContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   input: {
-    width: 200,
-    borderColor: "black",
-    height: 40,
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 2,
+    width: "80%",
+    borderBottomColor: "dodgerblue",
+    borderBottomWidth: 2,
+    backgroundColor: "#eee",
+    padding: 5,
     borderRadius: 5,
   },
   listItem: {
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    backgroundColor: "#ccc",
+    width: "79%",
+    backgroundColor: "#364156",
+    margin: 2,
+    borderRadius: 1,
   },
 });
-export default App;
