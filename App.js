@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button,ScrollView,TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState(null);
@@ -7,7 +15,10 @@ export default function App() {
 
   const goalInputHandler = (e) => setEnteredGoal(e);
   const goalsHandler = () =>
-    setGoals((currentGoal) => [...currentGoal, enteredGoal]);
+    setGoals((currentGoal) => [
+      ...currentGoal,
+      { id: Math.random.toString(), value: enteredGoal },
+    ]);
 
   return (
     <View style={styles.screen}>
@@ -19,13 +30,16 @@ export default function App() {
         />
         <Button title="Add" onPress={goalsHandler} />
       </View>
-      <ScrollView>
-        {goals.map((goal) => (
+
+      <FlatList
+        keyExtractor={(item, index) => item.id}
+        data={goals}
+        renderItem={(itemData) => (
           <View style={styles.listItem}>
-            <Text style={{ color: "#fff" }}>{goal}</Text>
+            <Text style={{ color: "#fff" }}>{itemData.item.value}</Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
