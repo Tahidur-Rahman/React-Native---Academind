@@ -1,50 +1,20 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, Button } from "react-native";
-import GoalInput from "./src/components/GoalInput";
-import GoalList from "./src/components/GoalList";
-
+import { View, StyleSheet, Button } from "react-native";
+import Header from "./src/components/Header";
+import GameStartScreen from "./src/components/Screens/GameStartScreen";
 export default function App() {
-  const [goals, setGoals] = useState([]);
-  const [modalVisibility,setModalVisibility] = useState(false);
 
-  const goalsHandler = (goalTitle) =>{
-    setGoals((currentGoal) => [
-      ...currentGoal,
-      { id: Math.random().toString(), value: goalTitle },
-    ]) 
-    setModalVisibility(false);
-  }
-
-  const removeHandler = (goalId) => {
-    setGoals((currentGoals) =>
-      currentGoals.filter((goal) => goal.id !== goalId)
-    );
-  };
 
   return (
     <View style={styles.screen}>
-      <Button title="Add New goal"  onPress={()=>setModalVisibility(true)}/>
-      <GoalInput addGoal={goalsHandler} modalVisibility={modalVisibility} setModalVisibility={setModalVisibility}/>
-      <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={goals}
-        renderItem={(itemData) => (
-          <GoalList
-            id={itemData.item.id}
-            onDelete={removeHandler}
-            goal={itemData.item.value}
-          />
-        )}
-      />
+     <Header title="Guess a Number"/>
+     <GameStartScreen/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 20,
-    backgroundColor: "skyblue",
     flex: 1,
-    paddingTop: 90,
   }
 });
