@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 
-import { View, StyleSheet, Button, Text } from "react-native";
+import { View, StyleSheet, Button, Text,Alert } from "react-native";
 import Card from "../Card";
 import Colors from "../../constants/Colors.js";
 import Input from "../Input";
+import StartGame from "../StartGame";
 
-function GameStartScreen() {
+function GameStartScreen({userScreenHandler}) {
+  const [number, setNumber] = useState();
+  const [confirm, setConfirm] = useState(false);
+  const [confirmNumber, setConfirmNumber] = useState();
+
+  const inputHandler = (e) => {
+    setNumber(parseInt(e));
+  };
+  const resetNumber = () => {
+    setNumber("");
+    setConfirm(false);
+  };
   
+  const confirmValidator = () => {
+    if (number >= 0 ) {
+      setConfirm(true);
+      setConfirmNumber(number);
+      setNumber('')
+    }else{
+      return Alert.alert('Invalid Number','Input should be a positive number between 0-99',[{text:'Okay',style:'cancel',onPress:resetNumber}])
+    }
+  };
+
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Start a new Game !</Text>
@@ -16,16 +38,27 @@ function GameStartScreen() {
           style={styles.textInput}
           keyboardType="numeric"
           maxLength={2}
+          onChangeText={inputHandler}
+          value={number}
         />
         <View style={styles.buttons}>
           <View style={styles.button}>
-            <Button color={Colors.secondary} title="Reset" />
+            <Button
+              color={Colors.secondary}
+              title="Reset"
+              onPress={resetNumber}
+            />
           </View>
           <View style={styles.button}>
-            <Button color={Colors.primary} title="Confirm" />
+            <Button
+              color={Colors.primary}
+              title="Confirm"
+              onPress={confirmValidator}
+            />
           </View>
         </View>
       </Card>
+      {confirm && <StartGame userScreenHandler={userScreenHandler} confirmNumber={confirmNumber} />}
     </View>
   );
 }
