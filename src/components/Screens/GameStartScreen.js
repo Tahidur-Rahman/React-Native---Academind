@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { View, StyleSheet, Button, Text,Alert } from "react-native";
+import { View, StyleSheet, Button, Text,Alert,Image } from "react-native";
 import Card from "../Card";
 import Colors from "../../constants/Colors.js";
 import Input from "../Input";
@@ -32,6 +32,9 @@ function GameStartScreen({userScreenHandler}) {
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Start a new Game !</Text>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{uri:'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ'}}/>
+      </View>
       <Card style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Input a Number</Text>
         <Input
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 10,
+    fontFamily:'open-sans-bold'
   },
   inputContainer: {
     width: 300,
@@ -81,6 +85,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     paddingVertical: 10,
     fontSize: 20,
+    fontFamily:'open-sans'
   },
   textInput: {
     width: 60,
@@ -94,5 +99,9 @@ const styles = StyleSheet.create({
   button: {
     width: 100,
   },
+  image:{
+    width:260,
+    height:200,
+  }
 });
 export default GameStartScreen;

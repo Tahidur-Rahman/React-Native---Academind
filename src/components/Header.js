@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     },
     headerTitle:{
         fontSize:18,
-        fontWeight:'600'
+        fontFamily:'open-sans-bold'
     }
 })
 
