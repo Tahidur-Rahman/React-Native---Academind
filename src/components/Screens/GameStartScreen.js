@@ -31,7 +31,7 @@ function GameStartScreen({userScreenHandler}) {
 
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>Start a new Game !</Text>
+      <Text style={styles.title}> Start a new Game !</Text>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{uri:'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ'}}/>
       </View>
